@@ -1,0 +1,22 @@
+* {
+    background-color: #f0f0f0;
+    color: #242424;
+}
+
+main {
+    /* display: flex;
+    justify-content: center;
+    flex-direction: column; */
+
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+
+    padding-bottom: 500px;
+}
+
+table, th, td {
+    margin-top: 8px;
+    border: 1px solid #242424;
+}

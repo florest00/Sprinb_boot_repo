@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class BoardVo {
-
     private String no;
     private String title;
     private String content;
@@ -12,5 +11,4 @@ public class BoardVo {
     private String createdDate;
     private String hit;
     private String delYn;
-
 }

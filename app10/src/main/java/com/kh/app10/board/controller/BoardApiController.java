@@ -2,54 +2,62 @@ package com.kh.app10.board.controller;
 
 import com.kh.app10.board.service.BoardService;
 import com.kh.app10.board.vo.BoardVo;
+import com.kh.app10.common.page.PageVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-//Controller
 @RequestMapping("api/board")
 @RequiredArgsConstructor
-//@ResponseBody // 클래스에다 달아주면 밑에 쓸 필요 x
 public class BoardApiController {
 
     private final BoardService service;
 
     /**
-     * 게시글 작성 기능
-     *
-     * @return
+     *  게시글 작성
      */
-    @PostMapping("insert")
-//    @ResponseBody // 리턴값을 그대로 "응답"함
-//    public int insert(BoardVo vo){
-//    public void insert(String str){
-//    public void insert(@RequestBody String str){
-    public int insert(@RequestBody BoardVo vo){
-//        req.getBody.getStr
-//        System.out.println("BoardController.insert called");
-//        System.out.println("vo = " + vo);
-        //data
-        vo.setWriterNo("1");
-        //service
-        int result = service.insert(vo);
-        return result;
+    @PostMapping
+    public int insert(@RequestBody BoardVo vo) {
+        return service.insert(vo);
     }
 
     /**
-     * 게시글 목록 얻기
+     * 게시글 목록 조회
      */
+    @GetMapping
+//    public List<BoardVo> selectList(PageVo pvo) {
+        public Map<String, Object> selectList(@RequestParam(required = false, defaultValue = "1") int pno) { // (required = false) 필수 아니다
 
-    @GetMapping("list")
-//    @ResponseBody // 맨 위에 있으면 없어도 됨
-    public List<BoardVo> list(){
-        List<BoardVo> voList = service.getBoardList();
-        System.out.println("voList = " + voList);
-//        return voList.toString(); //JSON 형식으로 바꿔 응답하면 fetch함수로 편하게
-//        return voList -> JSON
-        return voList;
+            int listCount = service.getBoardCnt();
+            int currentPage = pno;
+            int pageLimit = 5;
+            int boardLimit = 10;
+
+            PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+
+            List<BoardVo> voList = service.selectList(pvo);
+            
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("pvo", pvo);
+            map.put("voList", voList);
+
+            return map;
+//        return service.selectList(pvo);
+    }
+
+    /**
+     * 게시글 상세 조회
+     */
+    @GetMapping("{no}")
+    public BoardVo selectOne(@PathVariable String no){
+        //data
+        //service
+
+        return service.selectOne(no);
     }
 
 }
