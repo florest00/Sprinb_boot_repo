@@ -1,0 +1,11 @@
+main > form {
+    display: grid;
+    width: 500px;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: repeat(5 , 30px);
+
+    & > input:last-child{
+        grid-column: span 2;
+    }
+
+}
