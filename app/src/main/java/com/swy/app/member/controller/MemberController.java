@@ -27,4 +27,10 @@ public class MemberController {
         return "member/mypage";
     }
 
+    @GetMapping("logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/home";
+    }
+
 }

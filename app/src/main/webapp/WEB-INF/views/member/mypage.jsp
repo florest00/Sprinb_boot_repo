@@ -30,6 +30,8 @@
                     <div id="newPwdCheckResult"></div>
                     <label for="">닉네임</label>
                     <input type="text" name="nick">
+                    <input type="file" name="f">
+                    <img id="profile-preview"></img>
                     <input type="button" value="탈퇴하기" onclick="quit();">
                     <input type="button" value="수정하기" onclick="edit();">
                 </form>

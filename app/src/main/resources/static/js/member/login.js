@@ -18,16 +18,18 @@ function login() {
         body : JSON.stringify(vo) ,
     };
     fetch(url, option)
-    .then( resp => resp.json() )
+    // .then( resp => {resp.json()} )
+    .then( resp => {
+        if(!resp.ok){
+            throw new Error();
+        }
+        return resp.json();
+    } )
     .then( loginMember => {
-        console.log("loginMember:", loginMember);
-        // 프로필 이미지 안보여서 확인 로그
         if(loginMember) {
             alert("로그인 성공 !!! ");
             location.href = '/home';
         } else {
-            // alert("로그인 실패 ... ");
-            // location.reload();
             throw new Error();
         }
         
@@ -36,6 +38,7 @@ function login() {
         console.log(err);
         alert("로그인 실패 ... ");
         location.reload();
+        //화면 새로고침
     } )
     ;
 }

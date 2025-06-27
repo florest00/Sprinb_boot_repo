@@ -32,11 +32,17 @@ public class MemberApiController {
 //@RequestBody : json형식으로 받을때만 씀
         // 경로 전달
         String dirPath = "D:\\dev\\spring_boot_repo\\app\\src\\main\\resources\\static\\upload\\profile\\";
+        if(f != null){
+            String changeName = FileUploader.save(f, dirPath);
+            vo.setProfile(changeName);
+        } else {
+            vo.setProfile("user.png");
+            // 프필 없으면, f값 없으면 기본인 user.png가 들어가게
+        }
 //        String dirPath = .properties;
         //.properties => k:v 형태를 가져온다? application.properties 문자열 읽고 1, 2줄~읽고 등호 기준 k값,, 어떤 값들을 다룰 때 유용함
-        String changeName = FileUploader.save(f, dirPath);
 
-        vo.setProfile(changeName);
+//        vo.setProfile(changeName);
         int result = service.join(vo);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -47,11 +53,25 @@ public class MemberApiController {
     @PostMapping("login")
     public ResponseEntity<MemberVo> login(@RequestBody MemberVo vo, HttpSession session) {
         MemberVo loginMember = service.login(vo);
+
+
+        if(loginMember == null){
+            return ResponseEntity
+                    .badRequest()
+                    .body(null);
+        }
+
 //        String profilePath = "/upload/profile/";
         loginMember.setSavePath(profilePath + loginMember.getProfile());
         session.setAttribute("loginMember", loginMember);
+
+
+
         return ResponseEntity
-                .status(HttpStatus.OK)
+//                .status(HttpStatus.OK)
+                .ok()
+//                .badRequest()
+                //인증에 대한 실패
                 .body(loginMember);
     }
 
@@ -91,12 +111,15 @@ public class MemberApiController {
     }
 
     //수정하기
-    @PutMapping
     //@RequestParam => RequestBody
-    public ResponseEntity<Integer> edit(@RequestBody MemberVo vo, HttpSession session){
+    @PutMapping
+    public ResponseEntity<Integer> edit(MemberVo vo, HttpSession session, MultipartFile f) throws IOException {
         MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
         String no = loginMember.getNo();
         vo.setNo(no);
+        String dirPath = "D:\\dev\\spring_boot_repo\\app\\src\\main\\resources\\static\\upload\\profile\\";
+        String changeName = FileUploader.save(f, dirPath);
+        vo.setProfile(changeName);
         //data
         //service
         int result = service.edit(vo);

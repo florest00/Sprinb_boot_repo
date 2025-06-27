@@ -10,6 +10,9 @@ public class FileUploader {
 
     public static String save(MultipartFile f, String dirPath) throws IOException {
 
+        if(f == null){
+            return "user.png";
+        }
         //파일 저장
         String originName = f.getOriginalFilename();
         assert originName != null;

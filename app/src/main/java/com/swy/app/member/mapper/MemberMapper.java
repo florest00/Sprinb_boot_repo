@@ -53,6 +53,7 @@ public interface MemberMapper {
                 SET
                     PWD = #{newPwd}
                     , NICK = #{nick}
+                    , PROFILE = #{profile}
                 WHERE NO = #{no}
                 AND PWD = #{pwd}
                 AND DEL_YN = 'N'

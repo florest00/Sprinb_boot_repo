@@ -4,7 +4,6 @@ function selectMemberOne() {
     .then( resp => resp.json() )
     .then( loginMember => {
         document.querySelector("input[name=id]").value = loginMember.id;
-        // document.querySelector("input[name=pwd]").value = loginMember.pwd;
         document.querySelector("input[name=nick]").value = loginMember.nick;
     } )
     ;
@@ -41,7 +40,6 @@ function quit(){
 function checkCurrentPwd() {
     const oldPwd = document.querySelector("input[name=oldPwd]").value;
     return oldPwd.length > 0;
-    // return true;
 }
 
 function checkSamePwd(){
@@ -56,7 +54,6 @@ function edit(){
     const checkResultDiv = document.querySelector("#newPwdCheckResult");
     const pwdCheckResult = checkCurrentPwd();
     if(!pwdCheckResult){
-        // checkResultDiv.innerHTML = "현재 비밀번호를 입력하세요";
         alert("현재 비밀번호를 입력하세요");
         return;
     }
@@ -71,20 +68,19 @@ function edit(){
     const pwd = document.querySelector("input[name=oldPwd]").value;
     const newPwd = document.querySelector("input[name=newPwd]").value;
     const nick = document.querySelector("input[name=nick]").value;
-    const vo = {
-        pwd ,
-        newPwd ,
-        nick ,
-    }
+    const fileInputTag = document.querySelector("input[name=f]");
+    const f = fileInputTag.files[0];
+    const fd = new FormData();
+    fd.append("pwd", pwd);
+    fd.append("newPwd", newPwd);
+    fd.append("nick", nick);
+    fd.append("f", f);
 
     // console.log("edit ~~~ fetch ~~~");
     const url = "http://127.0.0.1:8080/api/member";
     const option = {
         method :  "PUT" ,
-        headers : {
-            "Content-Type" : "application/json" ,
-        },
-        body : JSON.stringify(vo) ,
+        body : fd ,
     };
     fetch(url, option)
     .then( resp => resp.json() )

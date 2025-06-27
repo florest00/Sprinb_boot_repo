@@ -4,3 +4,11 @@
     
 <link rel="stylesheet" href="/css/common/layout.css">
 <script defer src="/js/common/layout.js"></script>
+
+<c:if test="${not empty alertMsg}">
+    <script>
+    alert("${alertMsg}");
+    </script>
+</c:if>
+
+<c:remove var="alertMsg"></c:remove>

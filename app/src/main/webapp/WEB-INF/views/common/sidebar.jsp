@@ -17,7 +17,7 @@
             <li>
                 <a>BOARD</a>
                 <ul class="submenu">
-                    <li><a href="/board/list">게시글 목록</a></li>
+                    <li><a href="/board/list/1">게시글 목록</a></li>
                     <li><a href="/board/insert">게시글 작성</a></li>
                 </ul>
             </li>
